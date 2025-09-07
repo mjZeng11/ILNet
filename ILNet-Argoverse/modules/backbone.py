@@ -138,7 +138,7 @@ class Backbone(nn.Module):
         new_target_nodes = (edge_index[1].view(-1, 1) * self.num_modes + torch.arange(self.num_modes, device=self.device)).view(-1)
         new_source_nodes = edge_index[0].repeat_interleave(self.num_modes) 
         new_edge_index1 = torch.stack([new_source_nodes, new_target_nodes], dim=0)
-        edge_index1 = new_edge_index1[:, torch.norm(t2m_position_m[new_edge_index1[1]] - t2m_position_t[new_edge_index1[0]],p=2,dim=-1) < (self.a2a_radius)*1]
+        edge_index1 = new_edge_index1[:, torch.norm(t2m_position_m[new_edge_index1[1]] - t2m_position_t[new_edge_index1[0]],p=2,dim=-1) < (self.a2a_radius)*2]
         edge_vector1 = transform_point_to_local_coordinate(t2m_position_t[edge_index1[0]], t2m_position_m[edge_index1[1]], t2m_heading_m[edge_index1[1]])
         edge_attr_length1, edge_attr_theta1 = compute_angles_lengths_2D(edge_vector1)
         edge_attr_heading1 = wrap_angle(t2m_heading_t[edge_index1[0]] - t2m_heading_m[edge_index1[1]])
@@ -149,7 +149,7 @@ class Backbone(nn.Module):
         new_target_nodes = (edge_index[0].view(-1, 1) * self.num_modes + torch.arange(self.num_modes, device=self.device)).view(-1)
         new_source_nodes = edge_index[1].repeat_interleave(self.num_modes) 
         new_edge_index2 = torch.stack([new_source_nodes, new_target_nodes], dim=0)
-        edge_index2 = new_edge_index2[:, torch.norm(t2m_position_m[new_edge_index2[1]] - t2m_position_t[new_edge_index2[0]],p=2,dim=-1) < (self.a2a_radius)*1]
+        edge_index2 = new_edge_index2[:, torch.norm(t2m_position_m[new_edge_index2[1]] - t2m_position_t[new_edge_index2[0]],p=2,dim=-1) < (self.a2a_radius)*2]
         edge_vector2 = transform_point_to_local_coordinate(t2m_position_t[edge_index2[0]], t2m_position_m[edge_index2[1]], t2m_heading_m[edge_index2[1]])
         edge_attr_length2, edge_attr_theta2 = compute_angles_lengths_2D(edge_vector2)
         edge_attr_heading2 = wrap_angle(t2m_heading_t[edge_index2[0]] - t2m_heading_m[edge_index2[1]])
